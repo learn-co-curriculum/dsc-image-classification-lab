@@ -1,5 +1,5 @@
 
-# Image Classifcation
+# Image Classification - Lab
 
 ## Introduction
 
