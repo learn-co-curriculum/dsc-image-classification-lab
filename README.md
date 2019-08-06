@@ -25,7 +25,7 @@ It's easiest if you download the data into this directory on your local computer
 
 
 ```python
-#No code persay, but download and decompress the data.
+# No code persay, but download and decompress the data.
 ```
 
 ## Preprocessing
@@ -36,7 +36,7 @@ Use this to create a directory substructure for a train-validation-test split as
 
 
 ```python
-#Your code here; open the labels.csv file stored in the zip file
+# Your code here; open the labels.csv file stored in the zip file
 ```
 
 We wish to create our standard directory structure:
@@ -58,8 +58,8 @@ We wish to create our standard directory structure:
 
 
 ```python
-#Your code here; transform the image files and then load them into Keras as tensors 
-#(be sure to perform a train-val-test split)
+# Your code here; transform the image files and then load them into Keras as tensors 
+# (be sure to perform a train-val-test split)
 ```
 
 ## Optional: Build a Baseline CNN
@@ -68,7 +68,7 @@ This is an optional step. Adapting a pretrained model will produce better result
 
 
 ```python
-#Create a baseline CNN model
+# Create a baseline CNN model
 ```
 
 ## Loading a Pretrained CNN
@@ -79,7 +79,7 @@ Now that you've loaded a pretrained model, it's time to adapt that convolutional
 
 
 ```python
-#Your code here; add fully connected layers on top of the convolutional base
+# Your code here; add fully connected layers on top of the convolutional base
 ```
 
 ## Visualize History
@@ -88,19 +88,19 @@ Now fit the model and visualize the training and validation accuracy/loss functi
 
 
 ```python
-#Your code here; visualize the training / validation history associated with fitting the model.
+# Your code here; visualize the training / validation history associated with fitting the model.
 ```
 
 
 ```python
-#Save model
+# Save model
 ```
 
 ## Final Model Evaluation
 
 
 ```python
-#Your code here
+# Your code here
 ```
 
 ## Summary
