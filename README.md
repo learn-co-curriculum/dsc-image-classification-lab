@@ -25,12 +25,12 @@ It's easiest if you download the data into this directory on your local computer
 
 
 ```python
-#No code persay, but download and decompress the data.
+# No code persay, but download and decompress the data.
 ```
 
 ## Preprocessing
 
-Now that you've downloaded the data, its time to prepare it for some model building! You'll notice that the current structure provided is not the same as our lovely preprocessed folders that you've been given to date. Instead, you have one large training folder with images and a csv file with labels associated with each of these file types.
+Now that you've downloaded the data, its time to prepare it for some model building! You'll notice that the current structure provided is not the same as our lovely preprocessed folders that you've been given to date. Instead, you have one large training folder with images and a csv file with labels associated with each of these file types. 
 
 Use this to create a directory substructure for a train-validation-test split as we have done previously. Also recall that you'll also want to use one-hot encoding as you are now presented with a multi-class problem as opposed to simple binary classification.
 
@@ -199,7 +199,7 @@ for breed in df.breed.unique():
 
 
 ```python
-#Your code here
+# Your code here
 from keras.preprocessing.image import ImageDataGenerator
 
 train_dir = 'data_org/train'
@@ -598,7 +598,7 @@ Now that you've loaded a pretrained model, it's time to adapt that convolutional
 
 
 ```python
-#Your code here; add fully connected layers on top of the convolutional base
+# Your code here; add fully connected layers on top of the convolutional base
 # from keras.preprocessing.image import ImageDataGenerator, array_to_img
 
 #Initialize Base
@@ -668,7 +668,7 @@ validation_dir = 'data_org/val/'
 test_dir = 'data_org/test/'
 
 
-#Define Initial Parameters (same as previous code block)
+# Define Initial Parameters (same as previous code block)
 datagen = ImageDataGenerator(rescale=1./255) 
 batch_size = 10
 
@@ -707,12 +707,12 @@ test_generator = ImageDataGenerator(rescale=1./255).flow_from_directory(
 test_images, test_labels = next(test_generator)
 
 
-#Compilation
+# Compilation
 model.compile(loss='categorical_crossentropy',
               optimizer=optimizers.RMSprop(lr=2e-5),
               metrics=['acc'])
 
-#Fitting the Model
+# Fitting the Model
 history = model.fit_generator(
               train_generator,
               steps_per_epoch= 27,
@@ -762,7 +762,7 @@ Now fit the model and visualize the training and validation accuracy/loss functi
 
 
 ```python
-#Your code here; visualize the training / validation history associated with fitting the model.
+# Your code here; visualize the training / validation history associated with fitting the model.
 
 import matplotlib.pyplot as plt
 %matplotlib inline 
@@ -794,7 +794,7 @@ plt.show()
 
 
 ```python
-#Save model
+# Save model
 model.save('vgg19_FE_AUG_10epochs.h5')
 ```
 
@@ -805,89 +805,6 @@ import pickle
 with open('history_vgg19_10epochs.pickle', 'wb') as f:
     # Pickle the 'data' dictionary using the highest protocol available.
     pickle.dump(history, f, pickle.HIGHEST_PROTOCOL)
-```
-
-## Add Additional Training Epochs
-
-
-```python
-history2 = model.fit_generator(
-              train_generator,
-              steps_per_epoch= 27,
-              epochs = 15,
-              validation_data = val_generator,
-              validation_steps = 10,
-              initial_epoch=10)
-```
-
-    Epoch 21/25
-    27/27 [==============================] - 410s 15s/step - loss: 0.1690 - acc: 0.9692 - val_loss: 0.1500 - val_acc: 0.9836
-    Epoch 22/25
-    27/27 [==============================] - 400s 15s/step - loss: 0.1369 - acc: 0.9863 - val_loss: 0.1212 - val_acc: 0.9915
-    Epoch 23/25
-    27/27 [==============================] - 408s 15s/step - loss: 0.1131 - acc: 0.9917 - val_loss: 0.1005 - val_acc: 0.9917
-    Epoch 24/25
-    27/27 [==============================] - 411s 15s/step - loss: 0.0929 - acc: 0.9917 - val_loss: 0.0876 - val_acc: 0.9917
-    Epoch 25/25
-    27/27 [==============================] - 402s 15s/step - loss: 0.0869 - acc: 0.9917 - val_loss: 0.0809 - val_acc: 0.9917
-
-
-
-```python
-len(history2.history['acc'])
-```
-
-
-
-
-    5
-
-
-
-
-```python
-acc = history2.history['acc']
-val_acc = history2.history['val_acc']
-loss = history2.history['loss']
-val_loss = history2.history['val_loss']
-epochs = range(len(acc))
-plt.plot(epochs, acc, 'bo', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
-plt.legend()
-plt.figure()
-plt.plot(epochs, loss, 'bo', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
-plt.legend()
-plt.show()
-```
-
-
-![png](index_files/index_35_0.png)
-
-
-
-![png](index_files/index_35_1.png)
-
-
-
-```python
-test_generator = test_datagen.flow_from_directory(
-        'data_org/test/',
-        target_size=(240, 240),
-        batch_size=20,
-        class_mode='categorical',
-        shuffle=False)
-```
-
-    Found 1078 images belonging to 120 classes.
-
-
-
-```python
-#Save model
-model.save('vgg19_FE_AUG_15epochs.h5')
 ```
 
 ## Final Model Evaluation
