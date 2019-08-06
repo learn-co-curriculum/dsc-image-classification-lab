@@ -25,13 +25,13 @@ It's easiest if you download the data into this directory on your local computer
 
 
 ```python
-#No code persay, but download and decompress the data.
+# No code persay, but download and decompress the data.
 ```
 
 
 ```python
 # __SOLUTION__ 
-#No code persay, but download and decompress the data.
+# No code persay, but download and decompress the data.
 ```
 
 ## Preprocessing
@@ -42,7 +42,7 @@ Use this to create a directory substructure for a train-validation-test split as
 
 
 ```python
-#Your code here; open the labels.csv file stored in the zip file
+# Your code here; open the labels.csv file stored in the zip file
 ```
 
 
@@ -50,23 +50,6 @@ Use this to create a directory substructure for a train-validation-test split as
 # __SOLUTION__ 
 import pandas as pd
 ```
-
-We wish to create our standard directory structure:
-* train
-    * category1
-    * category2
-    * category3
-    ...
-* val
-    * category1
-    * category2
-    * category3
-    ...
-* test 
-    * category1
-    * category2
-    * category3
-    ...  
 
 
 ```python
@@ -77,12 +60,6 @@ ls
     Baseline_CNN.h5           [34mdata_org[m[m/                 dog_breeds.zip
     CNN Pretrained DIY.ipynb  [34mdog_breeds[m[m/               multiclass_cnfmatx.png
 
-
-
-```python
-#Your code here; transform the image files and then load them into Keras as tensors 
-#(be sure to perform a train-val-test split)
-```
 
 
 ```python
@@ -148,10 +125,6 @@ df.head()
 
 
 
-## Optional: Build a Baseline CNN
-
-This is an optional step. Adapting a pretrained model will produce better results, but it may be interesting to create a CNN from scratch as a baseline. If you wish to, do so here.
-
 
 ```python
 # __SOLUTION__ 
@@ -165,12 +138,28 @@ ls dog_breeds/train/ | head -5
     0021f9ceb3235effd7fcde7f7538ed62.jpg
 
 
+We wish to create our standard directory structure:
+* train
+    * category1
+    * category2
+    * category3
+    ...
+* val
+    * category1
+    * category2
+    * category3
+    ...
+* test 
+    * category1
+    * category2
+    * category3
+    ...  
+
 
 ```python
-#Create a baseline CNN model
+# Your code here; transform the image files and then load them into Keras as tensors 
+# (be sure to perform a train-val-test split)
 ```
-
-## Loading a Pretrained CNN
 
 
 ```python
@@ -192,10 +181,6 @@ print(df.breed.value_counts()[:10])
     samoyed                 109
     Name: breed, dtype: int64
 
-
-## Feature Engineering with the Pretrained Model
-
-Now that you've loaded a pretrained model, it's time to adapt that convolutional base and add some fully connected layers on top in order to build a classifier from these feature maps.
 
 
 ```python
@@ -237,13 +222,8 @@ for breed in df.breed.unique():
 
 
 ```python
-#Your code here; add fully connected layers on top of the convolutional base
-```
-
-
-```python
 # __SOLUTION__ 
-#Your code here
+# Your code here
 from keras.preprocessing.image import ImageDataGenerator
 
 train_dir = 'data_org/train'
@@ -277,10 +257,6 @@ validation_generator = test_datagen.flow_from_directory(
     Found 8127 images belonging to 120 classes.
     Found 1017 images belonging to 120 classes.
 
-
-## Visualize History
-
-Now fit the model and visualize the training and validation accuracy/loss functions over successive epochs.
 
 
 ```python
@@ -414,14 +390,13 @@ train_generator.class_indices
 
 
 
+## Optional: Build a Baseline CNN
+
+This is an optional step. Adapting a pretrained model will produce better results, but it may be interesting to create a CNN from scratch as a baseline. If you wish to, do so here.
+
 
 ```python
-#Your code here; visualize the training / validation history associated with fitting the model.
-```
-
-
-```python
-#Save model
+# Create a baseline CNN model
 ```
 
 
@@ -432,8 +407,6 @@ import datetime
 original_start = datetime.datetime.now()
 start = datetime.datetime.now()
 ```
-
-## Final Model Evaluation
 
 
 ```python
@@ -536,11 +509,6 @@ history = model.fit_generator(
 
 
 ```python
-#Your code here
-```
-
-
-```python
 # __SOLUTION__ 
 import matplotlib.pyplot as plt
 %matplotlib inline 
@@ -563,16 +531,12 @@ plt.show()
 ```
 
 
-![png](index_files/index_28_0.png)
+![png](index_files/index_20_0.png)
 
 
 
-![png](index_files/index_28_1.png)
+![png](index_files/index_20_1.png)
 
-
-## Summary
-
-Congratulations! In this lab, you brought all of your prior deep learning skills together from preprocessing including one-hot encoding, to adapting a pretrained model. There are always ongoing advancements in CNN architectures and best practices, but you have a solid foundation and understanding at this point.
 
 
 ```python
@@ -665,10 +629,21 @@ print('{} matches for {}% accuracy.'.format(matches, round(acc*100, 2)))
     8 matches for 0.74% accuracy.
 
 
+## Loading a Pretrained CNN
+
+## Feature Engineering with the Pretrained Model
+
+Now that you've loaded a pretrained model, it's time to adapt that convolutional base and add some fully connected layers on top in order to build a classifier from these feature maps.
+
+
+```python
+# Your code here; add fully connected layers on top of the convolutional base
+```
+
 
 ```python
 # __SOLUTION__ 
-#Your code here; add fully connected layers on top of the convolutional base
+# Your code here; add fully connected layers on top of the convolutional base
 # from keras.preprocessing.image import ImageDataGenerator, array_to_img
 
 #Initialize Base
@@ -739,7 +714,7 @@ validation_dir = 'data_org/val/'
 test_dir = 'data_org/test/'
 
 
-#Define Initial Parameters (same as previous code block)
+# Define Initial Parameters (same as previous code block)
 datagen = ImageDataGenerator(rescale=1./255) 
 batch_size = 10
 
@@ -778,12 +753,12 @@ test_generator = ImageDataGenerator(rescale=1./255).flow_from_directory(
 test_images, test_labels = next(test_generator)
 
 
-#Compilation
+# Compilation
 model.compile(loss='categorical_crossentropy',
               optimizer=optimizers.RMSprop(lr=2e-5),
               metrics=['acc'])
 
-#Fitting the Model
+# Fitting the Model
 history = model.fit_generator(
               train_generator,
               steps_per_epoch= 27,
@@ -828,10 +803,19 @@ print('Training took a total of {}'.format(elapsed))
     Training took a total of 1:24:09.795237
 
 
+## Visualize History
+
+Now fit the model and visualize the training and validation accuracy/loss functions over successive epochs.
+
+
+```python
+# Your code here; visualize the training / validation history associated with fitting the model.
+```
+
 
 ```python
 # __SOLUTION__ 
-#Your code here; visualize the training / validation history associated with fitting the model.
+# Your code here; visualize the training / validation history associated with fitting the model.
 
 import matplotlib.pyplot as plt
 %matplotlib inline 
@@ -854,17 +838,22 @@ plt.show()
 ```
 
 
-![png](index_files/index_39_0.png)
+![png](index_files/index_35_0.png)
 
 
 
-![png](index_files/index_39_1.png)
+![png](index_files/index_35_1.png)
 
 
 
 ```python
+# Save model
+```
+
+
+```python
 # __SOLUTION__ 
-#Save model
+# Save model
 model.save('vgg19_FE_AUG_10epochs.h5')
 ```
 
@@ -878,90 +867,11 @@ with open('history_vgg19_10epochs.pickle', 'wb') as f:
     pickle.dump(history, f, pickle.HIGHEST_PROTOCOL)
 ```
 
-
-```python
-# __SOLUTION__ 
-history2 = model.fit_generator(
-              train_generator,
-              steps_per_epoch= 27,
-              epochs = 15,
-              validation_data = val_generator,
-              validation_steps = 10,
-              initial_epoch=10)
-```
-
-    Epoch 21/25
-    27/27 [==============================] - 410s 15s/step - loss: 0.1690 - acc: 0.9692 - val_loss: 0.1500 - val_acc: 0.9836
-    Epoch 22/25
-    27/27 [==============================] - 400s 15s/step - loss: 0.1369 - acc: 0.9863 - val_loss: 0.1212 - val_acc: 0.9915
-    Epoch 23/25
-    27/27 [==============================] - 408s 15s/step - loss: 0.1131 - acc: 0.9917 - val_loss: 0.1005 - val_acc: 0.9917
-    Epoch 24/25
-    27/27 [==============================] - 411s 15s/step - loss: 0.0929 - acc: 0.9917 - val_loss: 0.0876 - val_acc: 0.9917
-    Epoch 25/25
-    27/27 [==============================] - 402s 15s/step - loss: 0.0869 - acc: 0.9917 - val_loss: 0.0809 - val_acc: 0.9917
-
+## Final Model Evaluation
 
 
 ```python
-# __SOLUTION__ 
-len(history2.history['acc'])
-```
-
-
-
-
-    5
-
-
-
-
-```python
-# __SOLUTION__ 
-acc = history2.history['acc']
-val_acc = history2.history['val_acc']
-loss = history2.history['loss']
-val_loss = history2.history['val_loss']
-epochs = range(len(acc))
-plt.plot(epochs, acc, 'bo', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
-plt.legend()
-plt.figure()
-plt.plot(epochs, loss, 'bo', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
-plt.legend()
-plt.show()
-```
-
-
-![png](index_files/index_44_0.png)
-
-
-
-![png](index_files/index_44_1.png)
-
-
-
-```python
-# __SOLUTION__ 
-test_generator = test_datagen.flow_from_directory(
-        'data_org/test/',
-        target_size=(240, 240),
-        batch_size=20,
-        class_mode='categorical',
-        shuffle=False)
-```
-
-    Found 1078 images belonging to 120 classes.
-
-
-
-```python
-# __SOLUTION__ 
-#Save model
-model.save('vgg19_FE_AUG_15epochs.h5')
+# Your code here
 ```
 
 
@@ -984,3 +894,7 @@ print('test acc:', test_acc)
     Generated 1078 predictions
     test acc: 0.9916666746139526
 
+
+## Summary
+
+Congratulations! In this lab, you brought all of your prior deep learning skills together from preprocessing including one-hot encoding, to adapting a pretrained model. There are always ongoing advancements in CNN architectures and best practices, but you have a solid foundation and understanding at this point.
