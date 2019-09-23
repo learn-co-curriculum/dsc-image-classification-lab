@@ -41,6 +41,7 @@ Now that you've downloaded the data, its time to prepare it for some model build
 Use this to create a directory substructure for a train-validation-test split as we have done previously. Also recall that you'll also want to use one-hot encoding as you are now presented with a multi-class problem as opposed to simple binary classification.
 
 
+
 ```python
 # Your code here; open the labels.csv file stored in the zip file
 ```
@@ -138,6 +139,9 @@ ls dog_breeds/train/ | head -5
     0021f9ceb3235effd7fcde7f7538ed62.jpg
 
 
+
+In order to input the data into our standard pipeline, you'll need to organize the image files into a nested folder structure. At the top level will be a folder for the training data, a folder for the validation data, and a folder for the testing data. Within these top directory folders, you'll then need to create a folder for each of the categorical classes (in this case, dog breeds). Finally, within these category folders you'll then place each of the associated image files.
+
 We wish to create our standard directory structure:
 * train
     * category1
@@ -154,6 +158,14 @@ We wish to create our standard directory structure:
     * category2
     * category3
     ...  
+
+> **Hint**: To do this, you can use the `os` module which will you to use execute many common bash commands straight from your python interpreter. For example, here's how you could make a new folder:
+```python
+import os
+os.mkdir('New_Folder_Name')
+```
+Start by creating top level folders for the train, validation and test sets. Then, use your pandas dataframe to split the example images for each breed of dog into a 80% train set, and 10% validation and test sets. Use `os.path.join()` with the information from the dataframe to construct the relevant file path. With this, place the relevant images using the `shutil.copy()` into the appropriate directory.
+
 
 
 ```python
