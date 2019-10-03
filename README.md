@@ -39,7 +39,22 @@ Use this to create a directory substructure for a train-validation-test split as
 # Your code here; open the labels.csv file stored in the zip file
 ```
 
-We wish to create our standard directory structure:
+
+```python
+ls dog_breeds/train/ | head -5
+```
+
+    000bec180eb18c7604dcecc8fe0dba07.jpg
+    001513dfcb2ffafc82cccf4d8bbaba97.jpg
+    001cdf01b096e06d78e9e5112d419397.jpg
+    00214f311d5d2247d5dfe4fe24b2303d.jpg
+    0021f9ceb3235effd7fcde7f7538ed62.jpg
+
+
+
+In order to input the data into our standard pipeline, you'll need to organize the image files into a nested folder structure. At the top level will be a folder for the training data, a folder for the validation data, and a folder for the testing data. Within these top directory folders, you'll then need to create a folder for each of the categorical classes (in this case, dog breeds). Finally, within these category folders you'll then place each of the associated image files. To save time, do this for just 3 of the dog breeds such as 'boston_bull', 'toy_poodle', and 'scottish_deerhound'.
+
+You're nested file structure should look like this:
 * train
     * category1
     * category2
@@ -55,6 +70,15 @@ We wish to create our standard directory structure:
     * category2
     * category3
     ...  
+
+> **Hint**: To do this, you can use the `os` module which will you to use execute many common bash commands straight from your python interpreter. For example, here's how you could make a new folder:
+```python
+import os
+os.mkdir('New_Folder_Name')
+```
+Start by creating top level folders for the train, validation and test sets. Then, use your pandas dataframe to split the example images for each breed of dog into a 80% train set, and 10% validation and test sets. Use `os.path.join()` with the information from the dataframe to construct the relevant file path. With this, place the relevant images using the `shutil.copy()` into the appropriate directory. 
+
+>> **Note**: It is worthwhile to try this exercise on your own, but you can also use the images stored under the `'data_org_subset/'` folder of this repository, in which the Kaggle dataset has already been subset and preprocessed.
 
 
 ```python
@@ -75,7 +99,7 @@ This is an optional step. Adapting a pretrained model will produce better result
 
 ## Feature Engineering with the Pretrained Model
 
-Now that you've loaded a pretrained model, it's time to adapt that convolutional base and add some fully connected layers on top in order to build a classifier from these feature maps.
+As you may well have guessed, adapting a pretrained model will undoubtedly produce better results then a fresh CNN due to the limited size of training data. Import a pretrained model such as VGG19 to use a convolutional base. Use this to transform the dataset into a rich feature space and add a few fully connected layers on top of the pretrained layers to build a classification model. (Be sure to leave the pretrained model frozen!)
 
 
 ```python
@@ -97,6 +121,8 @@ Now fit the model and visualize the training and validation accuracy/loss functi
 ```
 
 ## Final Model Evaluation
+
+Now that you've trained and validated the model, perform a final evaluation of the model on the test set.
 
 
 ```python
