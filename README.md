@@ -3,29 +3,26 @@
 
 ## Introduction
 
-Now that you have a working knowledge of CNNs and have practiced implementing associated techniques in Keras, its time to put all of those skills together. In this lab, you'll work to complete a Kaggle competition on classifying dog breeds.
+Now that you have a working knowledge of CNNs and have practiced implementing associated techniques in Keras, its time to put all of those skills together. In this lab, you'll work to complete a [Kaggle competition](https://www.kaggle.com/c/dog-breed-identification) on classifying dog breeds.
 
-https://www.kaggle.com/c/dog-breed-identification
 
 ## Objectives
 
-You will be able to:
-* Independently design and build a CNN for image classifcation tasks
-* Compare and apply multiple techniques for tuning a model including data augmentation and adapting pretrained models
+In this lab you will: 
+
+- Compare and apply multiple techniques for tuning a model using data augmentation and pretrained models  
 
 ## Download and Load the Data
 
 Start by downloading the data locally and loading it into a Pandas DataFrame. Be forewarned that this dataset is fairly large and it is advisable to close other memory intensive applications.
 
-The data can be found here:
-
-https://www.kaggle.com/c/dog-breed-identification/data
+The data can be found [here](https://www.kaggle.com/c/dog-breed-identification/data).
 
 It's easiest if you download the data into this directory on your local computer. From there, be sure to uncompress the folder and subfolders. If you download the data elsewhere, be sure to modify the file path when importing the file below.
 
 
 ```python
-# No code persay, but download and decompress the data.
+# No code per se, but download and decompress the data
 ```
 
 ## Preprocessing
@@ -52,31 +49,32 @@ ls dog_breeds/train/ | head -5
 
 
 
-In order to input the data into our standard pipeline, you'll need to organize the image files into a nested folder structure. At the top level will be a folder for the training data, a folder for the validation data, and a folder for the testing data. Within these top directory folders, you'll then need to create a folder for each of the categorical classes (in this case, dog breeds). Finally, within these category folders you'll then place each of the associated image files. To save time, do this for just 3 of the dog breeds such as 'boston_bull', 'toy_poodle', and 'scottish_deerhound'.
+In order to input the data into our standard pipeline, you'll need to organize the image files into a nested folder structure. At the top level will be a folder for the training data, a folder for the validation data, and a folder for the test data. Within these top directory folders, you'll then need to create a folder for each of the categorical classes (in this case, dog breeds). Finally, within these category folders you'll then place each of the associated image files. To save time, do this for just 3 of the dog breeds such as `'boston_bull'`, `'toy_poodle'`, and `'scottish_deerhound'`.
 
 You're nested file structure should look like this:
 * train
-    * category1
-    * category2
-    * category3
+    * category_1
+    * category_2
+    * category_3
     ...
 * val
-    * category1
-    * category2
-    * category3
+    * category_1
+    * category_2
+    * category_3
     ...
 * test 
-    * category1
-    * category2
-    * category3
+    * category_1
+    * category_2
+    * category_3
     ...  
 
-> **Hint**: To do this, you can use the `os` module which will you to use execute many common bash commands straight from your python interpreter. For example, here's how you could make a new folder:
+> **Hint**: To do this, you can use the `os` module which will you can use to execute many common bash commands straight from your python interpreter. For example, here's how you could make a new folder: 
+
 ```python
 import os
 os.mkdir('New_Folder_Name')
 ```
-Start by creating top level folders for the train, validation and test sets. Then, use your pandas dataframe to split the example images for each breed of dog into a 80% train set, and 10% validation and test sets. Use `os.path.join()` with the information from the dataframe to construct the relevant file path. With this, place the relevant images using the `shutil.copy()` into the appropriate directory. 
+Start by creating top level folders for the train, validation, and test sets. Then, use your pandas DataFrame to split the example images for each breed of dog into a 80% train set, and 10% validation and test sets. Use `os.path.join()` with the information from the DataFrame to construct the relevant file path. With this, place the relevant images using the `shutil.copy()` into the appropriate directory. 
 
 >> **Note**: It is worthwhile to try this exercise on your own, but you can also use the images stored under the `'data_org_subset/'` folder of this repository, in which the Kaggle dataset has already been subset and preprocessed.
 
@@ -99,7 +97,7 @@ This is an optional step. Adapting a pretrained model will produce better result
 
 ## Feature Engineering with the Pretrained Model
 
-As you may well have guessed, adapting a pretrained model will undoubtedly produce better results then a fresh CNN due to the limited size of training data. Import a pretrained model such as VGG19 to use a convolutional base. Use this to transform the dataset into a rich feature space and add a few fully connected layers on top of the pretrained layers to build a classification model. (Be sure to leave the pretrained model frozen!)
+As you may well have guessed, adapting a pretrained model will undoubtedly produce better results then a fresh CNN due to the limited size of training data. Import a pretrained model such as VGG-19 to use a convolutional base. Use this to transform the dataset into a rich feature space and add a few fully connected layers on top of the pretrained layers to build a classification model. (Be sure to leave the pretrained model frozen!)
 
 
 ```python
@@ -112,7 +110,7 @@ Now fit the model and visualize the training and validation accuracy/loss functi
 
 
 ```python
-# Your code here; visualize the training / validation history associated with fitting the model.
+# Your code here; visualize the training / validation history associated with fitting the model
 ```
 
 
