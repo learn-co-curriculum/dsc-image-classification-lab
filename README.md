@@ -3,29 +3,26 @@
 
 ## Introduction
 
-Now that you have a working knowledge of CNNs and have practiced implementing associated techniques in Keras, its time to put all of those skills together. In this lab, you'll work to complete a Kaggle competition on classifying dog breeds.
+Now that you have a working knowledge of CNNs and have practiced implementing associated techniques in Keras, its time to put all of those skills together. In this lab, you'll work to complete a [Kaggle competition](https://www.kaggle.com/c/dog-breed-identification) on classifying dog breeds.
 
-https://www.kaggle.com/c/dog-breed-identification
 
 ## Objectives
 
-You will be able to:
-* Independently design and build a CNN for image classifcation tasks
-* Compare and apply multiple techniques for tuning a model including data augmentation and adapting pretrained models
+In this lab you will: 
+
+- Compare and apply multiple techniques for tuning a model using data augmentation and pretrained models  
 
 ## Download and Load the Data
 
 Start by downloading the data locally and loading it into a Pandas DataFrame. Be forewarned that this dataset is fairly large and it is advisable to close other memory intensive applications.
 
-The data can be found here:
-
-https://www.kaggle.com/c/dog-breed-identification/data
+The data can be found [here](https://www.kaggle.com/c/dog-breed-identification/data).
 
 It's easiest if you download the data into this directory on your local computer. From there, be sure to uncompress the folder and subfolders. If you download the data elsewhere, be sure to modify the file path when importing the file below.
 
 
 ```python
-# No code persay, but download and decompress the data.
+# No code per se, but download and decompress the data
 ```
 
 ## Preprocessing
@@ -113,31 +110,32 @@ ls dog_breeds/train/ | head -5
 ```
 
 
-In order to input the data into our standard pipeline, you'll need to organize the image files into a nested folder structure. At the top level will be a folder for the training data, a folder for the validation data, and a folder for the testing data. Within these top directory folders, you'll then need to create a folder for each of the categorical classes (in this case, dog breeds). Finally, within these category folders you'll then place each of the associated image files. To save time, do this for just 3 of the dog breeds such as 'boston_bull', 'toy_poodle', and 'scottish_deerhound'.
+In order to input the data into our standard pipeline, you'll need to organize the image files into a nested folder structure. At the top level will be a folder for the training data, a folder for the validation data, and a folder for the test data. Within these top directory folders, you'll then need to create a folder for each of the categorical classes (in this case, dog breeds). Finally, within these category folders you'll then place each of the associated image files. To save time, do this for just 3 of the dog breeds such as `'boston_bull'`, `'toy_poodle'`, and `'scottish_deerhound'`.
 
 You're nested file structure should look like this:
 * train
-    * category1
-    * category2
-    * category3
+    * category_1
+    * category_2
+    * category_3
     ...
 * val
-    * category1
-    * category2
-    * category3
+    * category_1
+    * category_2
+    * category_3
     ...
 * test 
-    * category1
-    * category2
-    * category3
+    * category_1
+    * category_2
+    * category_3
     ...  
 
-> **Hint**: To do this, you can use the `os` module which will you to use execute many common bash commands straight from your python interpreter. For example, here's how you could make a new folder:
+> **Hint**: To do this, you can use the `os` module which will you can use to execute many common bash commands straight from your python interpreter. For example, here's how you could make a new folder: 
+
 ```python
 import os
 os.mkdir('New_Folder_Name')
 ```
-Start by creating top level folders for the train, validation and test sets. Then, use your pandas dataframe to split the example images for each breed of dog into a 80% train set, and 10% validation and test sets. Use `os.path.join()` with the information from the dataframe to construct the relevant file path. With this, place the relevant images using the `shutil.copy()` into the appropriate directory. 
+Start by creating top level folders for the train, validation, and test sets. Then, use your pandas DataFrame to split the example images for each breed of dog into a 80% train set, and 10% validation and test sets. Use `os.path.join()` with the information from the DataFrame to construct the relevant file path. With this, place the relevant images using the `shutil.copy()` into the appropriate directory. 
 
 >> **Note**: It is worthwhile to try this exercise on your own, but you can also use the images stored under the `'data_org_subset/'` folder of this repository, in which the Kaggle dataset has already been subset and preprocessed.
 
@@ -169,7 +167,8 @@ import os, shutil
 old_dir = 'dog_breeds/train/'
 
 new_root_dir = 'data_org_subset/'
-os.mkdir(new_root_dir) #Because this cell has already been run and this directory now exists, running this cell again will throw an error
+# Because this cell has already been run and this directory now exists, running this cell again will throw an error
+os.mkdir(new_root_dir) 
 
 dir_names = ['train', 'val', 'test']
 for d in dir_names:
@@ -178,12 +177,12 @@ for d in dir_names:
     
 for breed in ['boston_bull', 'toy_poodle', 'scottish_deerhound']:
     print('Moving {} pictures.'.format(breed))
-    #Create sub_directories
+    # Create sub_directories
     for d in dir_names:
         new_dir = os.path.join(new_root_dir, d, breed)
         os.mkdir(new_dir)
-    #Subset dataframe into train, validate and split sets
-    #Split is performed here to ensure maintain class distributions.
+    # Subset dataframe into train, validate and split sets
+    # Split is performed here to ensure maintain class distributions.
     temp = df[df.breed == breed]
     train, validate, test = np.split(temp.sample(frac=1), [int(.8*len(temp)), int(.9*len(temp))])
     print('Split {} imgs into {} train, {} val, and {} test examples.'.format(len(temp),
@@ -228,11 +227,10 @@ train_generator = train_datagen.flow_from_directory(
         batch_size=20,
         class_mode='categorical')
 
-validation_generator = test_datagen.flow_from_directory(
-        validation_dir,
-        target_size=(150, 150),
-        batch_size=20,
-        class_mode='categorical')
+validation_generator = test_datagen.flow_from_directory(validation_dir, 
+                                                        target_size=(150, 150), 
+                                                        batch_size=20, 
+                                                        class_mode='categorical')
 ```
 
     Found 233 images belonging to 3 classes.
@@ -295,12 +293,11 @@ model.compile(loss='categorical_crossentropy',
               optimizer=optimizers.RMSprop(lr=1e-4),
               metrics=['acc'])
 
-history = model.fit_generator(
-      train_generator,
-      steps_per_epoch=100,
-      epochs=10,
-      validation_data=validation_generator,
-      validation_steps=50)
+history = model.fit_generator(train_generator,
+                              steps_per_epoch=100,
+                              epochs=10,
+                              validation_data=validation_generator,
+                              validation_steps=50)
 
 end = datetime.datetime.now()
 elapsed = end - start
@@ -353,11 +350,11 @@ plt.show()
 ```
 
 
-![png](index_files/index_16_0.png)
+![png](index_files/index_15_0.png)
 
 
 
-![png](index_files/index_16_1.png)
+![png](index_files/index_15_1.png)
 
 
 
@@ -367,12 +364,11 @@ model.save('Baseline_CNN_dog_subset_run2.h5')
 
 
 ```python
-test_generator = test_datagen.flow_from_directory(
-        test_dir,
-        target_size=(150, 150),
-        batch_size=20,
-        class_mode='categorical',
-        shuffle=False)
+test_generator = test_datagen.flow_from_directory(test_dir,
+                                                  target_size=(150, 150),
+                                                  batch_size=20,
+                                                  class_mode='categorical',
+                                                  shuffle=False)
 
 test_loss, test_acc = model.evaluate_generator(test_generator, steps=54)
 y_hat_test = model.predict_generator(test_generator, steps=54)
@@ -389,20 +385,20 @@ print('test acc:', test_acc)
 
 ## Feature Engineering with the Pretrained Model
 
-As you may well have guessed, adapting a pretrained model will undoubtedly produce better results then a fresh CNN due to the limited size of training data. Import a pretrained model such as VGG19 to use a convolutional base. Use this to transform the dataset into a rich feature space and add a few fully connected layers on top of the pretrained layers to build a classification model. (Be sure to leave the pretrained model frozen!)
+As you may well have guessed, adapting a pretrained model will undoubtedly produce better results then a fresh CNN due to the limited size of training data. Import a pretrained model such as VGG-19 to use a convolutional base. Use this to transform the dataset into a rich feature space and add a few fully connected layers on top of the pretrained layers to build a classification model. (Be sure to leave the pretrained model frozen!)
 
 
 ```python
 # Your code here; add fully connected layers on top of the convolutional base
 # from keras.preprocessing.image import ImageDataGenerator, array_to_img
 
-#Initialize Base
+# Initialize Base
 from keras.applications import VGG19
 cnn_base = VGG19(weights='imagenet',
                  include_top=False,
                  input_shape=(240, 240, 3))
 
-#Define Model Architecture
+# Define Model Architecture
 model = models.Sequential()
 model.add(cnn_base)
 model.add(layers.Flatten())
@@ -414,11 +410,11 @@ model.add(layers.Dense(3, activation='softmax'))
 
 cnn_base.trainable = False
 
-#You can check whether a layer is trainable (or alter its setting) through the layer.trainable attribute:
+# You can check whether a layer is trainable (or alter its setting) through the layer.trainable attribute
 for layer in model.layers:
     print(layer.name, layer.trainable)
     
-#Similarly, we can check how many trainable weights are in the model:
+# Similarly, we can check how many trainable weights are in the model 
 print(len(model.trainable_weights))
 
 model.summary()
@@ -464,8 +460,6 @@ train_dir = '{}train'.format(new_root_dir)
 validation_dir = '{}val/'.format(new_root_dir)
 test_dir = '{}test/'.format(new_root_dir)
 
-
-
 original_start = datetime.datetime.now()
 start = datetime.datetime.now()
 
@@ -473,49 +467,45 @@ start = datetime.datetime.now()
 datagen = ImageDataGenerator(rescale=1./255) 
 batch_size = 10
 
-# get all the data in the directory split/train (542 images), and reshape them
-train_datagen = ImageDataGenerator(
-      rescale=1./255,
-      rotation_range=40,
-      width_shift_range=0.2,
-      height_shift_range=0.2,
-      shear_range=0.2,
-      zoom_range=0.2,
-      horizontal_flip=True,
-      fill_mode='nearest')
+# Get all the data in the directory split/train (542 images), and reshape them
+train_datagen = ImageDataGenerator(rescale=1./255,
+                                   rotation_range=40,
+                                   width_shift_range=0.2,
+                                   height_shift_range=0.2,
+                                   shear_range=0.2,
+                                   zoom_range=0.2,
+                                   horizontal_flip=True,
+                                   fill_mode='nearest')
 
 
-test_datagen = ImageDataGenerator(
-      rescale=1./255,
-      rotation_range=40,
-      width_shift_range=0.2,
-      height_shift_range=0.2,
-      shear_range=0.2,
-      zoom_range=0.2,
-      horizontal_flip=True,
-      fill_mode='nearest')
+test_datagen = ImageDataGenerator(rescale=1./255,
+                                  rotation_range=40,
+                                  width_shift_range=0.2,
+                                  height_shift_range=0.2,
+                                  shear_range=0.2,
+                                  zoom_range=0.2,
+                                  horizontal_flip=True,
+                                  fill_mode='nearest')
 
-train_generator = train_datagen.flow_from_directory(
-        train_dir, 
-        target_size=(240, 240), 
-        batch_size= 20,
-        class_mode= 'categorical') 
+train_generator = train_datagen.flow_from_directory(train_dir, 
+                                                    target_size=(240, 240), 
+                                                    batch_size= 20,
+                                                    class_mode='categorical') 
 
-# get all the data in the directory split/validation (200 images), and reshape them
-val_generator = ImageDataGenerator(rescale=1./255).flow_from_directory(
-        validation_dir, 
-        target_size=(240, 240), 
-        batch_size = 20,
-        class_mode= 'categorical')
+# Get all the data in the directory split/validation (200 images), and reshape them
+val_generator = ImageDataGenerator(rescale=1./255).flow_from_directory(validation_dir, 
+                                                                       target_size=(240, 240), 
+                                                                       batch_size=20,
+                                                                       class_mode='categorical')
 
-# get all the data in the directory split/test (180 images), and reshape them
-test_generator = ImageDataGenerator(rescale=1./255).flow_from_directory(
-        test_dir, 
-        target_size=(240, 240), 
-        batch_size = 180,
-        class_mode= 'categorical',
-        shuffle=False)
+# Get all the data in the directory split/test (180 images), and reshape them
+test_generator = ImageDataGenerator(rescale=1./255).flow_from_directory(test_dir, 
+                                                                        target_size=(240, 240), 
+                                                                        batch_size=180,
+                                                                        class_mode='categorical',
+                                                                        shuffle=False)
 
+        
 test_images, test_labels = next(test_generator)
 
 
@@ -525,12 +515,11 @@ model.compile(loss='categorical_crossentropy',
               metrics=['acc'])
 
 # Fitting the Model
-history = model.fit_generator(
-              train_generator,
-              steps_per_epoch= 8,
-              epochs = 4,
-              validation_data = val_generator,
-              validation_steps = 10)
+history = model.fit_generator(train_generator,
+                              steps_per_epoch=8,
+                              epochs=4,
+                              validation_data=val_generator,
+                              validation_steps=10)
 
 
 end = datetime.datetime.now()
@@ -558,7 +547,7 @@ Now fit the model and visualize the training and validation accuracy/loss functi
 
 
 ```python
-# Your code here; visualize the training / validation history associated with fitting the model.
+# Your code here; visualize the training / validation history associated with fitting the model
 
 import matplotlib.pyplot as plt
 %matplotlib inline 
@@ -581,11 +570,11 @@ plt.show()
 ```
 
 
-![png](index_files/index_24_0.png)
+![png](index_files/index_22_0.png)
 
 
 
-![png](index_files/index_24_1.png)
+![png](index_files/index_22_1.png)
 
 
 
@@ -599,7 +588,7 @@ model.save('vgg19_3breeds_4epochs.h5')
 import pickle
 
 with open('history_vgg19__3breeds_4epochs.pickle', 'wb') as f:
-    # Pickle the 'data' dictionary using the highest protocol available.
+    # Pickle the 'data' dictionary using the highest protocol available
     pickle.dump(history, f, pickle.HIGHEST_PROTOCOL)
 ```
 
@@ -609,12 +598,11 @@ Now that you've trained and validated the model, perform a final evaluation of t
 
 
 ```python
-test_generator = test_datagen.flow_from_directory(
-        test_dir,
-        target_size=(240, 240),
-        batch_size=20,
-        class_mode='categorical',
-        shuffle=False)
+test_generator = test_datagen.flow_from_directory(test_dir,
+                                                  target_size=(240, 240),
+                                                  batch_size=20,
+                                                  class_mode='categorical',
+                                                  shuffle=False)
 
 test_loss, test_acc = model.evaluate_generator(test_generator, steps=54)
 y_hat_test = model.predict_generator(test_generator, steps=54)
