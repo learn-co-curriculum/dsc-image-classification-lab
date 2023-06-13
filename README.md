@@ -1,4 +1,3 @@
-
 # Image Classification - Lab
 
 ## Introduction
@@ -14,7 +13,7 @@ In this lab you will:
 
 ## Download and Load the Data
 
-Start by downloading the data locally and loading it into a Pandas DataFrame. Be forewarned that this dataset is fairly large and it is advisable to close other memory intensive applications.
+Start by downloading the data locally and loading it into a Pandas DataFrame. Be forewarned that this dataset is fairly large and it is advisable to close other memory intensive applications. Note: Part of the emphasis of this lab is to work locally on you rown machine.
 
 The data can be found [here](https://www.kaggle.com/c/dog-breed-identification/data).
 
@@ -395,11 +394,15 @@ plt.show()
 ```
 
 
+    
 ![png](index_files/index_20_0.png)
+    
 
 
 
+    
 ![png](index_files/index_20_1.png)
+    
 
 
 
@@ -630,11 +633,15 @@ plt.show()
 ```
 
 
+    
 ![png](index_files/index_29_0.png)
+    
 
 
 
+    
 ![png](index_files/index_29_1.png)
+    
 
 
 
